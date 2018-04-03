@@ -9,7 +9,7 @@ This is a minimal PHP implementation of the [Sharepoint 2013 REST API](https://w
 Here are a few examples on how you can use the package:
 
 ```php
-$client = new DelaneyMethod\Sharepoint\Client($refreshToken);
+$client = new DelaneyMethod\Sharepoint\Client($accessToken);
 
 // Create a folder
 $client->createFolder($path);
@@ -32,7 +32,7 @@ You can read the whole article for additional knowledge but the first step is th
 With an authorization token you can instantiate a `DelaneyMethod\Sharepoint\Client`.
 
 ```php
-$client = new DelaneyMethod\Sharepoint\Client($refreshToken);
+$client = new DelaneyMethod\Sharepoint\Client($accessToken);
 ```
 
 Look in [the source code of `DelaneyMethod\Sharepoint\Client`](https://github.com/delaneymethod/sharepoint-api/blob/master/src/Client.php) to discover the methods you can use.
