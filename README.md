@@ -1,7 +1,6 @@
 # Sharepoint 2013 REST API
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/delaneymethod/sharepoint-api.svg?style=flat-square)](https://packagist.org/packages/delaneymethod/sharepoint-api)
-[![Build Status](https://img.shields.io/travis/delaneymethod/sharepoint-api/master.svg?style=flat-square)](https://travis-ci.org/delaneymethod/sharepoint-api)
 [![Total Downloads](https://img.shields.io/packagist/dt/delaneymethod/sharepoint-api.svg?style=flat-square)](https://packagist.org/packages/delaneymethod/sharepoint-api)
 
 This is a minimal PHP implementation of the [Sharepoint 2013 REST API](https://www.dropbox.com/developers/documentation/http/overview). It contains only the methods needed for our flysystem-sharepoint adapter. We are open however to PRs that add extra methods to the client.
