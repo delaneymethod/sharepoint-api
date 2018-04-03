@@ -1,0 +1,44 @@
+{
+	"name": "delaneymethod/sharepoint-api",
+	"description": "A minimal implementation of Sharepoint 2013 REST API",
+	"keywords": [
+		"delaneymethod",
+		"sharepoint-api",
+		"sharepoint",
+		"rest",
+		"api"
+	],
+	"homepage": "https://github.com/delaneymethod/sharepoint-api",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Sean Delaney",
+			"email": "hello@delaneymethod.com",
+			"homepage": "https://www.delaneymethod.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": "^7.0",
+		"guzzlehttp/guzzle": "^6.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^6.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"DelaneyMethod\\Sharepoint\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"DelaneyMethod\\Sharepoint\\Test\\": "tests"
+		}
+	},
+	"scripts": {
+		"test": "vendor/bin/phpunit"
+	},
+	"config": {
+		"sort-packages": true
+	}
+}
