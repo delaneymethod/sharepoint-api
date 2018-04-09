@@ -2,6 +2,10 @@
 
 All notable changes to `sharepoint-api` will be documented in this file
 
+## 2.0.0 - 2018-04-09
+
+- Hooked up remaining functionality
+
 ## 1.0.2 - 2018-04-03
 
 - Updated the Client with settings and base functions

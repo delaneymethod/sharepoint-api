@@ -8,10 +8,26 @@ This is a minimal PHP implementation of the [Sharepoint 2013 REST API](https://w
 Here are a few examples on how you can use the package:
 
 ```php
-$client = new DelaneyMethod\Sharepoint\Client($accessToken);
+use DelaneyMethod\Sharepoint\Client as SharepointClient;
+
+$siteName = 'YOUR_TEAM_SITE_NAME';
+$siteUrl = 'https://YOUR_SITE.sharepoint.com';
+$publicUrl = 'https://YOUR_SITE.sharepoint.com/:i:/r/sites/YOUR_TEAM_SITE_NAME/Shared%20Documents'
+$clientId = 'YOUR_CLIENT_ID';
+$clientSecret = 'YOUR_CLIENT_SECRET';
+$verify = false; // See http://docs.guzzlephp.org/en/stable/request-options.html#verify
+$accessToken = 'YOUR_ACCESS_TOKEN';
+
+$client = new SharepointClient($siteName, $siteUrl, $publicUrl, $clientId, $clientSecret, $verify, $accessToken);
 
 // Create a folder
 $client->createFolder($path);
+
+// Delete a folder
+$client->delete($path);
+
+// Upload a file
+$client->upload($path, $contents);
 ```
 
 ## Installation
@@ -29,10 +45,6 @@ The first thing you need to do is get an authorisation token from Sharepoint. Sh
 You can read the whole article for additional knowledge but the first step is the only step you're interested in for our flysystem-sharepoint adapter to work.
 
 With an authorization token you can instantiate a `DelaneyMethod\Sharepoint\Client`.
-
-```php
-$client = new DelaneyMethod\Sharepoint\Client($accessToken);
-```
 
 Look in [the source code of `DelaneyMethod\Sharepoint\Client`](https://github.com/delaneymethod/sharepoint-api/blob/master/src/Client.php) to discover the methods you can use.
 
