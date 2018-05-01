@@ -236,6 +236,20 @@ class Client
 	{
 		$path = trim($path, '/');
 		
+		// Split the path so we can grab the filename and folder path
+		$segments = explode('/', $path);
+		
+		// Filename will be last item
+		$path = last($segments);
+		
+		// Remove filename from segments so we're left with the folder path
+		array_pop($segments);
+		
+		// Update the folder path
+		$folderPath = implode('/', $segments);
+		
+		$this->folderPath = $this->folderPath.'/'.$folderPath;
+		
 		$requestUrl = $this->siteUrl.'/sites/'.$this->siteName.'/_api/Web/GetFolderByServerRelativeUrl(\''.$this->folderPath.'\')/Files/add(url=\''.$path.'\', overwrite=true)';
 		
 		$options = [
