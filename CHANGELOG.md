@@ -2,6 +2,11 @@
 
 All notable changes to `sharepoint-api` will be documented in this file
 
+## 2.0.2 - 2018-05-07
+
+- Fixed bug communicating to the Rest API.
+- The access token can now be retrieved via an env variable or session.
+
 ## 2.0.1 - 2018-05-01
 
 - Fixed bug uploading to sub folders.

@@ -30,7 +30,9 @@ class Client
 	
 	protected $requestHeaders;
 	
-	public function __construct(string $siteName, string $siteUrl, string $publicUrl, string $clientId, string $clientSecret, bool $verify, string $accessToken = null)
+	protected $folderPathExcludeList;
+	
+	public function __construct(string $siteName, string $siteUrl, string $publicUrl, string $clientId, string $clientSecret, bool $verify, string $accessToken)
 	{
 		$this->verify = $verify;
 		
@@ -48,6 +50,10 @@ class Client
 		
 		$this->folderPath = '/sites/'.$this->siteName.'/Shared%20Documents';
 		
+		$this->folderPathExcludeList = [
+			'conversions'
+		];
+		
 		$this->client = new GuzzleClient([
 			'verify' => $this->verify,
 		]);
@@ -56,7 +62,6 @@ class Client
 		
 		$this->requestHeaders = [
 			'Accept' => 'application/json;odata=verbose',
-			'Authorization' => 'Bearer '.$this->accessToken,
 		];
 	}
 	
@@ -66,6 +71,11 @@ class Client
 	public function createFolder($path) : bool
 	{
 		$path = $this->normalizePath($path);
+		
+		// Check if the path contains folders we dont want to create
+		if (str_contains($path, $this->folderPathExcludeList)) {
+			return true;
+		}
 		
 		$requestUrl = $this->siteUrl.'/sites/'.$this->siteName.'/_api/Web/folders';
 		
@@ -97,7 +107,12 @@ class Client
 	public function delete(string $path) : bool
 	{
 		$path = $this->normalizePath($path);
-			
+		
+		// Check if the path contains folders we dont want to delete
+		if (str_contains($path, $this->folderPathExcludeList)) {
+			return true;
+		}
+		
 		$requestUrl = $this->siteUrl.'/sites/'.$this->siteName.'/_api/Web/GetFolderByServerRelativeUrl(\''.$this->folderPath.$path.'\')';
 		
 		$this->requestHeaders['IF-MATCH'] = 'etag';
@@ -303,6 +318,12 @@ class Client
 	
 	private function send(string $method, string $url, array $options)
 	{
+		if (!$this->accessToken) {
+			$this->accessToken = session()->get('oauth.sharepoint.access_token');
+		}
+		
+		$options['headers']['Authorization'] = 'Bearer '.$this->accessToken;
+		
 		try {
 			return $this->client->request($method, $url, $options);
 		} catch (RequestException $requestException) {
