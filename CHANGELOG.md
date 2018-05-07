@@ -2,6 +2,10 @@
 
 All notable changes to `sharepoint-api` will be documented in this file
 
+## 2.0.3 - 2018-05-07
+
+- Removed version from composer.json.
+
 ## 2.0.2 - 2018-05-07
 
 - Fixed bug communicating to the Rest API.
