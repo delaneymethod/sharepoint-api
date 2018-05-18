@@ -77,6 +77,8 @@ class Client
 			return true;
 		}
 		
+		$this->folderPath = '/sites/'.$this->siteName.'/Shared%20Documents';
+		
 		$requestUrl = $this->siteUrl.'/sites/'.$this->siteName.'/_api/Web/folders';
 		
 		$this->requestHeaders['Content-Type'] = 'application/json;odata=verbose';

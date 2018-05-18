@@ -2,6 +2,10 @@
 
 All notable changes to `sharepoint-api` will be documented in this file
 
+## 2.0.4 - 2018-05-18
+
+- Fixed bug when uploading multiple files.
+
 ## 2.0.3 - 2018-05-07
 
 - Removed version from composer.json.
