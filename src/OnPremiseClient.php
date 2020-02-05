@@ -230,7 +230,7 @@ class OnPremiseClient extends Client {
         $segments = explode('/', $path);
 
         // Filename will be last item
-        $path = last($segments);
+        $path = end($segments);
 
         // Remove filename from segments so we're left with the folder path
         array_pop($segments);
