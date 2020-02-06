@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\StreamWrapper;
 
 class OnPremiseClient extends Client {
 
+    protected $digestTimeout = null;
     protected $client = null;
     protected $config = [
         'siteName' => '',
@@ -36,6 +37,8 @@ class OnPremiseClient extends Client {
         $this->folderPath = '/Shared%20Documents';
 
         $this->client = new GuzzleClient($this->config['client']);
+
+        $this->digestTimeout = new \DateTime();
 
         foreach($this->folderPathExcludeList as &$excludedPath) {
             $excludedPath = $this->normalizePath($excludedPath);
@@ -240,7 +243,7 @@ class OnPremiseClient extends Client {
 
         $this->folderPath = $this->folderPath.'/'.$folderPath;
 
-        $action = 'GetFolderByServerRelativeUrl(\''.$this->folderPath.'\')/Files/add(url=\''.$path.'\', overwrite=true)';
+        $action = 'GetFolderByServerRelativeUrl(\''.$this->folderPath.'\')/Files/add(url=\''.$path.'\',overwrite=true)';
 
         $options = [
             'headers' => $this->requestHeaders,
@@ -281,9 +284,30 @@ class OnPremiseClient extends Client {
         return StreamWrapper::getResource($response->getBody());
     }
 
+    public function getRequestDigest()
+    {
+        $digest = null;
+        $options = [
+            'headers' => $this->requestHeaders
+        ];
+        $context = $this->client->request('POST', $this->siteUrl . '/_api/contextinfo', $options);
+        $context = json_decode($context->getBody()) ?? null;
+
+        if ($context && $this->digestTimeout->diff(new \DateTime())->invert === 0) {
+            $digest = $context->d->GetContextWebInformation->FormDigestValue;
+            $this->digestTimeout->add(new \DateInterval('PT'. $context->d->GetContextWebInformation->FormDigestTimeoutSeconds.'S'));
+            $this->requestHeaders['X-RequestDigest'] = $digest;
+        }
+
+        return $digest ?? $this->requestHeaders['X-RequestDigest'];
+    }
+
     private function send(string $method, string $action, array $options)
     {
         try {
+            if (in_array($method, ['POST', 'PUT'])) {
+                $options['headers']['X-RequestDigest'] = $this->getRequestDigest();
+            }
             return $this->client->request($method, $this->siteUrl . '/_api/Web/' . $action, $options);
         } catch (RequestException $requestException) {
             throw new \Exception(Psr7\str($requestException->getResponse()));
