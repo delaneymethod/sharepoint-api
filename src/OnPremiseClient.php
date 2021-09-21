@@ -310,7 +310,7 @@ class OnPremiseClient extends Client {
             }
             return $this->client->request($method, $this->siteUrl . '/_api/Web/' . $action, $options);
         } catch (RequestException $requestException) {
-            throw new \Exception(Psr7\str($requestException->getResponse()));
+            throw new \Exception(Psr7\Message::toString($requestException->getResponse()));
         }
     }
 
